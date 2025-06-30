@@ -9,6 +9,8 @@ const app = express();
 
 connectDB();
 
+app.use(express.json()); // Middleware To Parse JSON Bodies
+
 app.use('/api/notes', notesRoutes);
 
 const PORT = process.env.PORT || 3001;
