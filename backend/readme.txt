@@ -24,9 +24,43 @@ in notesRoutes create router = expres.router();
 
 server.js import notesRoutes.js => app.use("api/notes", notesRoutes);
 
+create notesController.js and make functions for each GET, POST, PUT, DELETE and call them in notesRoutes.js
+
+
+
+
+
+DATABASE CONNECTION!
 
 QF1dvpD840FNPm6h
 
-
-
 mongodb+srv://fazeelk2004:QF1dvpD840FNPm6h@cluster0.pjmrowf.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0d~
+
+install mongoose
+
+create a db.js file
+import mongoose
+create a function connectDB
+try catch block
+mongoose.connect("KEY!")
+
+make .env file
+
+install dotenv
+make keys name MONGO_URI
+
+call it by process.env.MONDO_URI
+
+SERVER.JS
+import { connectDB } from "./config/db.js";
+import dotenv from "dotenv";
+dotenv.config();
+connectDB();
+
+create a models foler and in it create Note.js
+create a schema and then create a model
+
+const noteSchema = new mongoose.Schema({},{timestamps:true})
+const Note = mongoose.model("Note", noteSchema)
+export default Note
+
