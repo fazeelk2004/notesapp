@@ -64,3 +64,8 @@ const noteSchema = new mongoose.Schema({},{timestamps:true})
 const Note = mongoose.model("Note", noteSchema)
 export default Note
 
+
+use app.use(express.json()); as a middleware in server.js
+Create the controllers for each CRUD operation
+create a new route to display a specific note
+
