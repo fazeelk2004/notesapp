@@ -69,3 +69,6 @@ use app.use(express.json()); as a middleware in server.js
 Create the controllers for each CRUD operation
 create a new route to display a specific note
 
+
+Created rate limiter upstash in config added key values in .env file
+created ratelimiter.js file in which limiter logic is implemented.
