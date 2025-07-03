@@ -4,7 +4,7 @@ import Note from '../models/Note.js';
 //DISPLAYING ALL NOTES
 export async function getAllNotes(_, res) {
   try{
-    const notes = await Note.find().sort({createdAt: -1}); // Sort By Creation Date, Newest First
+    const notes = await Note.find().sort({updatedAt: -1}); // Sort By Creation Date, Newest First
     res.status(200).json(notes);
   }catch (error) {
     console.error("Error in Get All Notes:", error.message);
@@ -47,8 +47,8 @@ export async function createNote(req, res) {
 //UPDATING A NOTE
 export async function updateNote(req,res) {
   try{
-    const {userTitle, userContent} = req.body;
-    const updatedNote = await Note.findByIdAndUpdate(req.params.id, {title: userTitle, content: userContent}, {new: true});
+    const {title, content} = req.body;
+    const updatedNote = await Note.findByIdAndUpdate(req.params.id, {title,content}, {new: true});
     if(!updatedNote) return res.status(404).json({message: "Note Not Found!"});
     res.status(200).json(updatedNote);
   }catch (error) {

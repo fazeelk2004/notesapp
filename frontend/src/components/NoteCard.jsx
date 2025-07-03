@@ -26,9 +26,16 @@ const NoteCard = ({ note,setNotes }) => {
         <p className='text-base-content/70 line-clamp-3'>{note.content}</p>
         <div className='card-actions justify-between items-center mt-4'>
           <span className='text-sm text-base-content/60'>
+            Created At:&nbsp;
             {formatDate(new Date(note.createdAt))}
           </span>
-          <div className='flex items-center gap-1'>
+          
+          <span className='text-sm text-base-content/60'>
+            Updated At:&nbsp;
+            {formatDate(new Date(note.updatedAt))}
+          </span>
+
+          <div className='flex items-center gap-1 justify-items-end'>
             <PenSquareIcon className='size-4 text-gray-500 hover:text-white transition-colors duration-200 mx-2' />
             <Trash2Icon className='size-4 text-red-400 hover:text-red-800 transition-colors duration-200 mx-2' onClick={(e) => handleDelete(e,note._id)}/>
           </div>
