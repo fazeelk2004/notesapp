@@ -5,10 +5,11 @@ import { toast } from 'react-hot-toast';
 import { LoaderIcon, ArrowLeftIcon, Trash2Icon } from 'lucide-react';
 import ConfirmDeleteModal from '../components/ConfirmDeleteModal';
 
-const NoteDetailPage = () => {
+const UpdateNote = () => {
   
   const [note, setNote] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
   const navigate = useNavigate();
@@ -38,11 +39,34 @@ const NoteDetailPage = () => {
     fetchNote();
   }, [id]);
 
-  const handleEdit = (e, id) => {
-    e.preventDefault();
-    navigate(`/note/edit/${id}`);
-  };
-
+  const handleSave = async () => {
+    if(!note.title.trim()) {
+      toast.error("Title Is Required!");
+      return;
+    }
+    if(!note.content.trim()) {
+      toast.error("Content Is Required!");
+      return;
+    }
+    setSaving(true);
+    try {
+      await apiNotes.put(`/notes/${id}`, note);
+      toast.success("Note Updated Successfully!");
+      navigate("/");
+    } catch (error) {
+      console.log("Error Saving Note:", error);
+      if (error.response?.status === 429) {
+        toast.error("Slow Down!. Please Try Again Later.", {
+          duration: 5000,
+          icon: "🚨",
+        });
+      } else {
+        toast.error("Failed To Update Note");
+      }
+    } finally {
+      setSaving(false);
+    }
+  }
 
   const handleDelete = async (e,id) => {
     try{
@@ -80,24 +104,50 @@ const NoteDetailPage = () => {
           
           <div className="card bg-base-100 shadow-lg">
             <div className="card-body">
-              <h1 className="text-2xl font-bold mb-4 text-primary">Note Details</h1>
-              <h2 class="card-title">{note.title}</h2>
-              <p className='text-ellipsis'></p>
-              <p>{note.content}</p>
-              <div class="card-actions justify-end">
-                <button class="btn btn-primary" onClick={(e) => handleEdit(e, note._id)}>Edit Note!</button>
+              <div className="form-control mb-4">
+                <label className="label">
+                  <span className="label-text">Title</span>
+                </label>
+                <input
+                  type="text"
+                  placeholder="Note title"
+                  className="input input-bordered"
+                  value={note.title}
+                  onChange={(e) => setNote({ ...note, title: e.target.value })}
+                />
               </div>
+
+              <div className="form-control mb-4">
+                <label className="label">
+                  <span className="label-text">Content</span>
+                </label>
+                <textarea
+                  placeholder="Write your note here..."
+                  className="textarea textarea-bordered h-32"
+                  value={note.content}
+                  onChange={(e) => setNote({ ...note, content: e.target.value })}
+                />
+              </div>
+
+              <div className="card-actions justify-end">
+                <button className="btn btn-primary" disabled={saving} onClick={handleSave}>
+                  {saving ? "Saving..." : "Save Changes"}
+                </button>
+              </div>
+
             </div>
           </div>
+
           <ConfirmDeleteModal
             open={showModal}
             onCancel={() => setShowModal(false)}
             onDelete={e => handleDelete(e, note._id)}
           />
+
         </div>
       </div>
     </div>
   )
 }
 
-export default NoteDetailPage
+export default UpdateNote

@@ -4,6 +4,7 @@ import HomePage from './pages/HomePage.jsx'
 import CreatePage from './pages/CreatePage.jsx'
 import NoteDetailPage from './pages/NoteDetailPage.jsx'
 import Navbar from './components/Navbar.jsx'
+import UpdateNote from './pages/UpdateNote.jsx'
 
 const App = () => {
   return (
@@ -14,6 +15,7 @@ const App = () => {
         <Route path="/" element={<HomePage />} />
         <Route path="/create" element={<CreatePage />} />
         <Route path="/note/:id" element={<NoteDetailPage />} />
+        <Route path="/note/edit/:id" element={<UpdateNote />} />
       </Routes>
       
     </div>
