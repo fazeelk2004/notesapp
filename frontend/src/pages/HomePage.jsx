@@ -4,6 +4,7 @@ import { toast } from 'react-hot-toast';
 import RateLimit from '../components/RateLimit'
 import NoteCard from '../components/NoteCard';
 import apiNotes from '../lib/axios';
+import NoNotesFound from '../components/NoNotesFound';
 
 const HomePage = () => {
   const [isRateLimited, setIsRateLimited] = useState(false);
@@ -37,10 +38,11 @@ const HomePage = () => {
       {isRateLimited && <RateLimit />}
       <div className='mx-auto max-w-7xl p-4 mt-6'>
         {loading && <div className='text-center text-primary py-10'>Loading Notes ...</div>}
+        {notes.length === 0 && !isRateLimited && !loading && <NoNotesFound />}
         {notes.length > 0 && !isRateLimited && (
           <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'>
             {notes.map(note => (
-              <NoteCard key={note._id} note={note} />
+              <NoteCard key={note._id} note={note} setNotes={setNotes}/>
             ))}
           </div>   
         )}
