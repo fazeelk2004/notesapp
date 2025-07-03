@@ -14,7 +14,7 @@ const Navbar = () => {
             </h1>
           </Link>
           <div className="flex items-center gap-4">
-            {location.pathname !== "/create" && ( // <-- condition here
+            {location.pathname !== "/create" && (
               <Link to="/create" className="btn btn-primary">
                 <PlusIcon className='size-5' />
                 <span>New Note</span>
